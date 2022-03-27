@@ -78,7 +78,6 @@ jobs:
           cat ${{matrix.platform}}_user_config.json
 
       - name: 添加扩展驱动 e1000/e1000e/vmxnet3/vmw_pvscsi
-        if: endsWith(matrix.version,'42218') 
         run: |
           # Adds Intel(R) PRO/1000 Network Driver Support
           ./redpill_tool_chain.sh add https://raw.githubusercontent.com/pocopico/rp-ext/master/e1000/rpext-index.json
