@@ -19,28 +19,28 @@ jobs:
       matrix:
        include:
         #  两行一组，删除不需要的版本
-         - platform: ds3615xs
-           version: 6.2.4-25556
-         - platform: ds3615xs
-           version: 7.0-41222
-         - platform: ds3615xs
-           version: 7.0.1-42218
+        # - platform: ds3615xs
+        #   version: 6.2.4-25556
+        # - platform: ds3615xs
+        #   version: 7.0-41222
+        # - platform: ds3615xs
+        #   version: 7.0.1-42218
          - platform: ds918p
            version: 6.2.4-25556
+        # - platform: ds918p
+        #   version: 7.0-41890
          - platform: ds918p
-           version: 7.0-41890
-         - platform: ds918p
            version: 7.0.1-42218
-         - platform: ds3617xs
-           version: 7.0.1-42218
-         - platform: ds3622xsp
-           version: 7.0.1-42218
-         - platform: ds920p
-           version: 7.0.1-42218
+        # - platform: ds3617xs
+        #   version: 7.0.1-42218
+        # - platform: ds3622xsp
+        #   version: 7.0.1-42218
+        # - platform: ds920p
+        #   version: 7.0.1-42218
          - platform: ds1621p
            version: 7.0.1-42218
-         - platform: dva3221
-           version: 7.0.1-42218
+        # - platform: dva3221
+        #   version: 7.0.1-42218
 
     steps:
       - name: 检出项目文件
@@ -77,6 +77,20 @@ jobs:
 
           cat ${{matrix.platform}}_user_config.json
 
+      - name: 添加扩展驱动 e1000/e1000e/vmxnet3/vmw_pvscsi/hpsa
+        if: endsWith(matrix.version,'42218') 
+        run: |
+          # Adds Intel(R) PRO/1000 Network Driver Support
+          ./redpill_tool_chain.sh add https://raw.githubusercontent.com/pocopico/rp-ext/master/e1000/rpext-index.json
+          # Adds Intel(R) PRO/1000 Network Driver Support
+          ./redpill_tool_chain.sh add https://raw.githubusercontent.com/pocopico/rp-ext/master/e1000e/rpext-index.json
+          # Adds VMware vmxnet3 virtual NIC driver Support
+          ./redpill_tool_chain.sh add https://raw.githubusercontent.com/pocopico/rp-ext/master/vmxnet3/rpext-index.json
+          # Adds VMware PVSCSI driver Support
+          ./redpill_tool_chain.sh add https://raw.githubusercontent.com/pocopico/rp-ext/master/vmw_pvscsi/rpext-index.json
+          # Adds Driver for HP Smart Array Controller version 3.4.14-0 Support
+          ./redpill_tool_chain.sh add https://raw.githubusercontent.com/pocopico/rp-ext/master/hpsa/rpext-index.json
+
       - name: 添加扩展驱动
         if: matrix.platform != 'dva3221'
         run: |
@@ -102,7 +116,6 @@ jobs:
 
       - name: 编译引导镜像
         run: ./redpill_tool_chain.sh auto ${{matrix.platform}}-${{matrix.version}}
-
 
       - name: 上传引导镜像到 github actions
         uses: actions/upload-artifact@v2
