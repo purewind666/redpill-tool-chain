@@ -25,20 +25,20 @@ jobs:
         #   version: 7.0-41222
          - platform: ds3615xs
            version: 7.0.1-42218
-         - platform: ds918p
-           version: 6.2.4-25556
+        # - platform: ds918p
+        #   version: 6.2.4-25556
         # - platform: ds918p
         #   version: 7.0-41890
-         - platform: ds918p
-           version: 7.0.1-42218
+        # - platform: ds918p
+        #   version: 7.0.1-42218
          - platform: ds3617xs
            version: 7.0.1-42218
         # - platform: ds3622xsp
         #   version: 7.0.1-42218
         # - platform: ds920p
         #   version: 7.0.1-42218
-         - platform: ds1621p
-           version: 7.0.1-42218
+        # - platform: ds1621p
+        #   version: 7.0.1-42218
         # - platform: dva3221
         #   version: 7.0.1-42218
 
@@ -77,12 +77,18 @@ jobs:
 
           cat ${{matrix.platform}}_user_config.json
 
-      - name: 添加扩展驱动 e1000/e1000e/vmxnet3/vmw_pvscsi
+      - name: 添加扩展驱动 e1000/e1000e/tg3/r8125/r8152/vmxnet3/vmw_pvscsi
         run: |
           # Adds Intel(R) PRO/1000 Network Driver Support
           ./redpill_tool_chain.sh add https://raw.githubusercontent.com/pocopico/rp-ext/master/e1000/rpext-index.json
           # Adds Intel(R) PRO/1000 Network Driver Support
           ./redpill_tool_chain.sh add https://raw.githubusercontent.com/pocopico/rp-ext/master/e1000e/rpext-index.json
+          # Adds Broadcom Tigon3 ethernet driver Support
+          ./redpill_tool_chain.sh add https://raw.githubusercontent.com/pocopico/rp-ext/master/tg3/rpext-index.json
+          # Adds Realtek RTL8125 2.5Gigabit Ethernet driver Support
+          ./redpill_tool_chain.sh add https://raw.githubusercontent.com/pocopico/rp-ext/master/r8125/rpext-index.json
+          # Adds Realtek RTL8152/RTL8153 Based USB Ethernet Adapters Support
+          ./redpill_tool_chain.sh add https://raw.githubusercontent.com/pocopico/rp-ext/master/r8152/rpext-index.json
           # Adds VMware vmxnet3 virtual NIC driver Support
           ./redpill_tool_chain.sh add https://raw.githubusercontent.com/pocopico/rp-ext/master/vmxnet3/rpext-index.json
           # Adds VMware PVSCSI driver Support
