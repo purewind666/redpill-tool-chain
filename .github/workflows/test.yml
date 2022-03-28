@@ -32,7 +32,7 @@ jobs:
         # - platform: ds918p
         #   version: 7.0.1-42218
          - platform: ds3617xs
-           version: 7.0.1-42218
+           version: 7.0.1-42218u2
         # - platform: ds3622xsp
         #   version: 7.0.1-42218
         # - platform: ds920p
